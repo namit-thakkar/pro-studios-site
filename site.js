@@ -124,12 +124,10 @@ var SHEETS_WEB_APP_URL = "";
     }
     if (!SHEETS_WEB_APP_URL) { done(); return; }
     if (button) button.disabled = true;
-    fetch(SHEETS_WEB_APP_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    }).then(done).catch(function () {
+    var query = Object.keys(payload).map(function (key) {
+      return encodeURIComponent(key) + "=" + encodeURIComponent(payload[key] || "");
+    }).join("&");
+    fetch(SHEETS_WEB_APP_URL + "?" + query, { method: "GET", mode: "no-cors" }).then(done).catch(function () {
       showError("Could not save that just now. Please try again.");
       if (button) button.disabled = false;
     });
