@@ -72,8 +72,7 @@ var SHEETS_WEB_APP_URL = "";
     document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
   }
 
-  var form = document.querySelector("form.form");
-  if (!form) return;
+  document.querySelectorAll("form.form").forEach(function (form) {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     var data = new FormData(form);
@@ -88,7 +87,14 @@ var SHEETS_WEB_APP_URL = "";
       if (err) { err.hidden = false; err.textContent = msg; }
       if (ok) ok.hidden = true;
     }
-    if (!name || !email || !phone || !website) {
+    var flow = form.getAttribute("data-flow") === "1";
+    var need = String(data.get("need") || "").trim();
+    if (flow) {
+      if (!name || !email || !need) {
+        showError("Please complete name, email and what you need.");
+        return;
+      }
+    } else if (!name || !email || !phone || !website) {
       showError("Please complete name, email, phone and website.");
       return;
     }
@@ -102,9 +108,13 @@ var SHEETS_WEB_APP_URL = "";
       email: email,
       phone: phone,
       website: website,
-      service: String(data.get("service") || "").trim(),
-      budget: String(data.get("budget") || "").trim(),
+      service: flow ? ("Flow Edit — " + need) : String(data.get("service") || "").trim(),
+      budget: flow ? String(data.get("volume") || "").trim() : String(data.get("budget") || "").trim(),
       country: String(data.get("country") || "").trim(),
+      company: String(data.get("company") || "").trim(),
+      turnaround: String(data.get("turnaround") || "").trim(),
+      notes: String(data.get("notes") || "").trim(),
+      source: flow ? "Flow Edit" : "Home",
       submittedAt: new Date().toISOString()
     };
     function done() {
@@ -123,5 +133,6 @@ var SHEETS_WEB_APP_URL = "";
       showError("Could not save that just now. Please try again.");
       if (button) button.disabled = false;
     });
+  });
   });
 })();

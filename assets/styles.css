@@ -4,3 +4,21 @@
 .menu-btn .icon-close{display:none}
 .menu-btn.is-open .icon-open{display:none}
 .menu-btn.is-open .icon-close{display:block}
+
+textarea{min-height:120px;resize:vertical;width:100%;border-radius:14px;border:0;background:var(--input);box-shadow:0 0 0 1px var(--line);padding:12px 14px;font:inherit;font-size:1rem}
+textarea:focus{box-shadow:0 0 0 2px color-mix(in srgb, var(--accent) 70%, var(--fg))}
+.nav-links a[aria-current="page"] { color: var(--fg); }
+.flow-stats, .flow-split, .flow-grid { display: grid; gap: 14px; }
+.flow-stats { grid-template-columns: repeat(3, 1fr); margin-top: 28px; }
+.flow-split { grid-template-columns: 1fr 1fr; margin-top: 22px; }
+.flow-grid { grid-template-columns: repeat(3, 1fr); margin-top: 22px; }
+.flow-grid img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.flow-stat h3, .price-amt { letter-spacing: -0.04em; margin: 0; }
+.flow-stat h3 { font-size: clamp(1.35rem, 2.4vw, 1.8rem); }
+.price-amt { font-size: clamp(2.2rem, 5vw, 3.3rem); }
+.tick { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; color: var(--muted); }
+.tick li { padding-left: 14px; position: relative; }
+.tick li::before { content: ""; width: 6px; height: 6px; border-radius: 99px; background: var(--accent); position: absolute; left: 0; top: 0.55em; }
+@media (max-width: 800px) {
+  .flow-stats, .flow-split, .flow-grid { grid-template-columns: 1fr; }
+}
